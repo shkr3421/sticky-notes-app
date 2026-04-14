@@ -95,64 +95,64 @@
 </div>
 
 <script>
-const API = "http://localhost:8080/notes";
+    const API = "https://sticky-notes-app-production-e057.up.railway.app/notes";
 
-async function fetchNotes() {
-    const res = await fetch(API);
-    const data = await res.json();
+    async function fetchNotes() {
+        const res = await fetch(API);
+        const data = await res.json();
 
-    const container = document.getElementById("notes");
-    container.innerHTML = "";
+        const container = document.getElementById("notes");
+        container.innerHTML = "";
 
-    data.forEach(note => {
-        const card = document.createElement("div");
-        card.className = "card";
+        data.forEach(note => {
+            const card = document.createElement("div");
+            card.className = "card";
 
-        const text = document.createElement("p");
-        text.innerText = note.content;
+            const text = document.createElement("p");
+            text.innerText = note.content;
 
-        const del = document.createElement("button");
-        del.innerText = "X";
-        del.className = "delete-btn";
-        del.onclick = () => deleteNote(note.id);
+            const del = document.createElement("button");
+            del.innerText = "X";
+            del.className = "delete-btn";
+            del.onclick = () => deleteNote(note.id);
 
-        card.appendChild(text);
-        card.appendChild(del);
+            card.appendChild(text);
+            card.appendChild(del);
 
-        container.appendChild(card);
-    });
-}
+            container.appendChild(card);
+        });
+    }
 
-async function addNote() {
-    const input = document.getElementById("noteInput");
-    const content = input.value;
+    async function addNote() {
+        const input = document.getElementById("noteInput");
+        const content = input.value;
 
-    if (!content) return alert("Enter something!");
+        if (!content) return alert("Enter something!");
 
-    await fetch(API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content })
-    });
+        await fetch(API, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ content })
+        });
 
-    input.value = "";
-    fetchNotes();
-}
+        input.value = "";
+        fetchNotes();
+    }
 
-async function deleteNote(id) {
-    await fetch(`${API}/${id}`, {
-        method: "DELETE"
-    });
+    async function deleteNote(id) {
+        await fetch(`${API}/${id}`, {
+            method: "DELETE"
+        });
 
-    fetchNotes();
-}
+        fetchNotes();
+    }
 
-function clearUI() {
-    document.getElementById("notes").innerHTML = "";
-}
+    function clearUI() {
+        document.getElementById("notes").innerHTML = "";
+    }
 
-// Auto refresh every 5 min
-setInterval(fetchNotes, 300000);
+    // Auto refresh every 5 min
+    setInterval(fetchNotes, 300000);
 
 </script>
 
